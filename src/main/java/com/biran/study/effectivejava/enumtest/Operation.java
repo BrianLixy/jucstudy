@@ -49,8 +49,27 @@ public enum Operation {
 
 
     // Returns Operation for string, if any
+    // 传入的字符串并不代表一项有效的操作，并强制客户端面对这种可能性（详见第55 条） 。
     public static Optional<Operation> fromString (String symbol) {
         System.out.println(stringToEnum);
         return Optional.ofNullable (stringToEnum.get (symbol));
+    }
+
+    // Switch on an enum to simulate a missing method
+    // 如果一个方法不属于枚举类型，也应该在你所能控制的枚举类型上使用这种方法。这
+    // 种方法有点用处，但是通常还不值得将它包含到枚举类型中去。
+    public static Operation inverse(Operation op) {
+        switch (op) {
+            case PLUS:
+                return Operation.MINUS;
+            case MINUS:
+                return Operation.PLUS;
+            case TIMES:
+                return Operation.DIVIDE;
+            case DIVIDE:
+                return Operation.TIMES;
+            default:
+                throw new AssertionError("Unknown op: " + op);
+        }
     }
 }
